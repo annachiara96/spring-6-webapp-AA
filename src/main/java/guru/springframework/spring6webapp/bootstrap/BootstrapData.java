@@ -2,8 +2,10 @@ package guru.springframework.spring6webapp.bootstrap;
 
 import guru.springframework.spring6webapp.domain.Author;
 import guru.springframework.spring6webapp.domain.Book;
+import guru.springframework.spring6webapp.domain.Publisher;
 import guru.springframework.spring6webapp.repositories.AuthorRepository;
 import guru.springframework.spring6webapp.repositories.BookRepository;
+import guru.springframework.spring6webapp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,12 @@ public class BootstrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -29,17 +33,32 @@ public class BootstrapData implements CommandLineRunner {
         fatt.setTitle("Fattore 1%");
         fatt.setIsbn("123");
 
+        Book era= new Book();
+        fatt.setTitle("Era del cuore");
+        fatt.setIsbn("456");
+
+        Publisher monda= new Publisher();
+        monda.setPubName("Mondadori");
+        monda.setAddress("Via Inventata");
+
         Author lucaSaved= authorRepository.save(luca);
         Book fattSaved= bookRepository.save(fatt);
+        Book eraSaved= bookRepository.save(era);
+        Publisher mondaSaved= publisherRepository.save(monda);
 
         lucaSaved.getBooks().add(fattSaved);
+        lucaSaved.getBooks().add(eraSaved);
+        mondaSaved.getBooks().add(fattSaved);
+        mondaSaved.getBooks().add(eraSaved);
 
         //perché non risalva lucaSaved?
         authorRepository.save(lucaSaved);
+        publisherRepository.save(mondaSaved);
 
         System.out.println("In Bootstrap:");
         System.out.println("Author count: " + authorRepository.count());
         System.out.println("Book count " + bookRepository.count());
+        System.out.println("Publisher count " + publisherRepository.count());
 
     }
 }
