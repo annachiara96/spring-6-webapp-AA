@@ -20,7 +20,25 @@ public class Book {
     private Set<Author> authors= new HashSet<>();
 
     @ManyToOne
+    /*@JoinTable(name = "publisher_book", joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "publisher_id"))*/
     private Publisher publisher;
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
 
     public String getIsbn() {
         return isbn;

@@ -34,8 +34,8 @@ public class BootstrapData implements CommandLineRunner {
         fatt.setIsbn("123");
 
         Book era= new Book();
-        fatt.setTitle("Era del cuore");
-        fatt.setIsbn("456");
+        era.setTitle("Era del cuore");
+        era.setIsbn("456");
 
         Publisher monda= new Publisher();
         monda.setPubName("Mondadori");
@@ -48,12 +48,20 @@ public class BootstrapData implements CommandLineRunner {
 
         lucaSaved.getBooks().add(fattSaved);
         lucaSaved.getBooks().add(eraSaved);
-        mondaSaved.getBooks().add(fattSaved);
-        mondaSaved.getBooks().add(eraSaved);
 
-        //perché non risalva lucaSaved?
+        fattSaved.getAuthors().add(lucaSaved);
+        eraSaved.getAuthors().add(lucaSaved);
+
+        fattSaved.setPublisher(mondaSaved);
+        eraSaved.setPublisher(mondaSaved);
+
+        /*mondaSaved.getBooks().add(fattSaved);
+        mondaSaved.getBooks().add(eraSaved);*/
+
         authorRepository.save(lucaSaved);
         publisherRepository.save(mondaSaved);
+        bookRepository.save(eraSaved);
+        bookRepository.save(fattSaved);
 
         System.out.println("In Bootstrap:");
         System.out.println("Author count: " + authorRepository.count());
